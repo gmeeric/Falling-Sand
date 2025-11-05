@@ -49,7 +49,7 @@ export class Sand extends Particle {
     }
 
     update(row, col) {
-        // TODO update sand
+        moveParticle(row, col, row+1, col, this.swap);
     }
 }
 

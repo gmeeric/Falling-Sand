@@ -173,8 +173,15 @@ export function clearGrid() {
  * @returns {boolean}
  */
 export function checkBounds(row, col) {
-    // TODO make sure row and col are within the grid
-    return true;
+    if (row < grid.length && row >= 0)
+    {
+        if(col < grid[0].length && col >= 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /**
@@ -191,8 +198,15 @@ export function checkBounds(row, col) {
  * @returns {boolean} If the particle was moved or not
  */
 export function moveParticle(row, col, newRow, newCol, swap) {
-    // TODO move a particle from (row, col) to (newRow, newCol)
-    return true;
+    if (!checkBounds(row, col) || !checkBounds(newRow, newCol)){
+            return false;
+        }
+    if (getParticle(newRow, newCol)){
+        return false;
+    }
+        grid[newRow][newCol] = grid[row][col];
+        grid[row][col] = null;
+        return true;
 }
 
 /**
@@ -205,14 +219,15 @@ export function redraw() {
     // Loop through all elements in the grid
     for (let row = 0; row < grid.length; row++) {
         for (let col = 0; col < grid[0].length; col++) {
-
             const particle = grid[row][col];
 
-            // Get particle color
-            ctx.fillStyle = particle.color;
-            // Draw particle (multiple by eachSize to scale it from grid coordinates to pixels)
-            ctx.fillRect(col * eachSize, row * eachSize, eachSize, eachSize);
-
+            // Check if there is a particle at (row, col). (null == false)
+            if (particle) {
+                // Get particle color
+                ctx.fillStyle = particle.color;
+                // Draw particle (multiple by eachSize to scale it from grid coordinates to pixels)
+                ctx.fillRect(col * eachSize, row * eachSize, eachSize, eachSize);
+            }
         }
     }
 }
