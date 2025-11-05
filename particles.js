@@ -49,7 +49,16 @@ export class Sand extends Particle {
     }
 
     update(row, col) {
-        moveParticle(row, col, row+1, col, this.swap);
+        // Fall due to gravity
+        let newRow = row + 1;
+
+        // If nothing below move down
+        if (!moveParticle(row, col, newRow, col)) {
+            // Try to move left
+            if (!moveParticle(row, col, newRow, col-1, this.swap)) {
+                moveParticle(row, col, newRow, col+1, this.swap)
+            }
+        }
     }
 }
 
